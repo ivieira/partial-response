@@ -4,3 +4,4 @@
 *.iml
 /atlassian-ide-plugin.xml
 target/
+pom.xml.versionsBackup
