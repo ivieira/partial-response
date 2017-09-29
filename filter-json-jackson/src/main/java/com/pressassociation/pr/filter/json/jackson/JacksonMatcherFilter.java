@@ -152,6 +152,7 @@ public class JacksonMatcherFilter extends SimpleBeanPropertyFilter {
         // make sure we don't actually write anything to the output, only replace if we are the root node, it will
         // be passed to other nodes as needed via recursive calls
         generator = new JsonFactory().createGenerator(CharStreams.nullWriter());
+        generator.writeStartObject();
       }
 
       // prepare a node for this property so child branches can add to it as needed

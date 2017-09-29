@@ -25,10 +25,12 @@
 package com.pressassociation.pr.filter.json.jackson;
 
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.ser.PropertyFilter;
+import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.pressassociation.pr.match.Matcher;
 
 import org.junit.Test;
@@ -73,13 +75,14 @@ public class JacksonFiltersTest {
    */
   private static class TestObject {}
 
+
   @Test
   @Parameters(method = "methods")
   public void testFilterAllOutput(OverloadedFilterAllOutput method) {
     ObjectMapper mapper = method.filterAllOutput(new ObjectMapper(), "foo/bar");
     AnnotationIntrospector introspector = mapper.getSerializationConfig().getAnnotationIntrospector();
-    Object filterId = introspector.findFilterId((Annotated) AnnotatedClass.construct(
-        TestObject.class, introspector, mapper.getDeserializationConfig()));
+    Object filterId = introspector.findFilterId(AnnotatedClass.construct(
+            TypeFactory.unknownType(), mapper.getDeserializationConfig()));
     assertNotNull(filterId);
 
     PropertyFilter propertyFilter =

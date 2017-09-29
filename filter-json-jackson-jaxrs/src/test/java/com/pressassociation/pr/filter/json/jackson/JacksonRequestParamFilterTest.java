@@ -24,28 +24,25 @@
 
 package com.pressassociation.pr.filter.json.jackson;
 
-import com.google.common.base.Optional;
-import com.google.common.collect.ImmutableList;
-
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.Annotated;
 import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
 import com.fasterxml.jackson.databind.ser.PropertyFilter;
+import com.fasterxml.jackson.databind.type.TypeFactory;
+import com.google.common.base.Optional;
+import com.google.common.collect.ImmutableList;
 import com.pressassociation.pr.match.Matcher;
-
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
 import org.jboss.resteasy.spi.ResteasyUriInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.net.URI;
-
 import javax.annotation.Nullable;
 import javax.inject.Provider;
 import javax.ws.rs.core.UriInfo;
-
-import junitparams.JUnitParamsRunner;
-import junitparams.Parameters;
+import java.net.URI;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.Assert.assertEquals;
@@ -142,7 +139,7 @@ public class JacksonRequestParamFilterTest {
   private void assertConfiguredWithMatcher(ObjectMapper mapper, Matcher matcher) {
     AnnotationIntrospector introspector = mapper.getSerializationConfig().getAnnotationIntrospector();
     Object filterId = introspector.findFilterId((Annotated) AnnotatedClass.construct(
-        TestObject.class, introspector, mapper.getDeserializationConfig()));
+            TypeFactory.unknownType(), mapper.getDeserializationConfig()));
     assertNotNull(filterId);
 
     PropertyFilter propertyFilter =
@@ -155,7 +152,7 @@ public class JacksonRequestParamFilterTest {
   private void assertConfiguredWithoutMatcher(ObjectMapper mapper) {
     AnnotationIntrospector introspector = mapper.getSerializationConfig().getAnnotationIntrospector();
     Object filterId = introspector.findFilterId((Annotated) AnnotatedClass.construct(
-        TestObject.class, introspector, mapper.getDeserializationConfig()));
+        TypeFactory.unknownType(), mapper.getDeserializationConfig()));
     assertNull(filterId);
   }
 }
