@@ -1,4 +1,5 @@
-/.idea
+.*
+!.gitignore
 *.ipr
 *.iml
 /atlassian-ide-plugin.xml
